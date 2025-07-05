@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="Eng">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SINDHI RAHUL KA GAME</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #555;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+        input[type="number"] {
+            padding: 10px;
+            width: calc(100% - 22px);
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        button {
+            padding: 12px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #message {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        .correct {
+            color: green;
+        }
+        .wrong {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SINDHI RAHUL KA GAME</h1>
+        <p>Rahul Had A Number In His Mind You Have To Guess It</p>
+        <input type="number" id="guessInput" placeholder="1-100">
+        <button onclick="checkGuess()">Guess</button>
+        <p id="message"></p>
+        <button onclick="resetGame()" style="display: none; margin-top: 15px;" id="resetButton">Play Again</button>
+    </div>
+
+    <script>
+        let secretNumber;
+        let attempts = 0;
+        const messageElement = document.getElementById('message');
+        const guessInput = document.getElementById('guessInput');
+        const resetButton = document.getElementById('resetButton');
+
+        function generateSecretNumber() {
+            secretNumber = Math.floor(Math.random() * 100) + 1;
+            attempts = 0;
+            messageElement.textContent = '';
+            guessInput.value = '';
+            guessInput.disabled = false;
+            resetButton.style.display = 'none';
+            messageElement.className = ''; // Clear previous classes
+        }
+
+        function checkGuess() {
+            const userGuess = parseInt(guessInput.value);
+
+            if (isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
+                messageElement.textContent = 'Pehle Number To Dalo Baadme Guess Karna';
+                messageElement.className = 'wrong';
+                return;
+            }
+
+            attempts++;
+
+            if (userGuess === secretNumber) {
+                messageElement.textContent = `Koi Bada Teer Nahi Maara ${attempts} Attempts Ke Baad Guess Kar Paye`;
+                messageElement.className = 'correct';
+                guessInput.disabled = true;
+                resetButton.style.display = 'block';
+            } else if (userGuess < secretNumber) {
+                messageElement.textContent = 'Thoda Uper';
+                messageElement.className = 'wrong';
+            } else {
+                messageElement.textContent = 'Thoda Neeche';
+                messageElement.className = 'wrong';
+            }
+            guessInput.value = ''; // Clear input for next guess
+        }
+
+        function resetGame() {
+            generateSecretNumber();
+        }
+
+        // गेम शुरू करें जब पेज लोड हो जाए
+        window.onload = generateSecretNumber;
+    </script>
+</body>
+</html>
